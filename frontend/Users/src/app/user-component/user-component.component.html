@@ -1,0 +1,139 @@
+
+<br>
+<br>
+
+<div id="main-title" >
+
+	<div class="container" style="text-align: center;">
+		<h2>User List</h2>
+	</div>
+</div>
+
+<br>
+<br>
+<div class="container">
+  <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#AddUserModal">Add an User</button>
+</div>
+<br>
+
+
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Birthday</th>
+        <th scope="col">position</th>
+        <th scope="col">Immediate Supervisor</th>
+        <th scope="col">Department</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of Users; let i = index;">
+        <td>{{user.user_ID}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.gender }}</td>
+        <td>{{user.birthday | date:'longDate' }}</td>
+        <td>{{user.position }}</td>
+        <td>{{user.immediateSupervisor }}</td>
+        <td>{{user.department_ID }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <!-- SET/EDIT MODAL -->
+    <div class="modal fade" id="AddUserModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Add a Costumer</h5>
+              <button (click)="resetForm()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="" [formGroup]="AddUserForm">
+                <div *ngIf="FormIsInvalid" class="alert alert-danger" role="alert">
+                 There are errors in the form, you must correct them in order to continue
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">User ID</label>
+                    <input formControlName="User_ID" mask="000-0000000-0"type="text" class="form-control" >
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input formControlName="Name" type="text" class="form-control" >
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Last name</label>
+                  <input formControlName="LastName"type="text" class="form-control" >
+                </div>
+                <div class="form-group">
+
+                  <label for="exampleInputEmail1">Gender</label>
+                  <ng-select [items]="genders" 
+                        bindLabel="name" 
+                        bindValue="id" 
+                        formControlName="Gender"
+                        class="custom">
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Birthday</label>
+                  <my-date-picker [options]="myDatePickerOptions"
+                     (dateChanged)="setDate($event)" formControlName="Birthday" ></my-date-picker>
+                </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Position</label>
+                    <input formControlName="position"type="text" class="form-control" >
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Immediate Supervisor</label>
+                    <input formControlName="ImmediateSupervisor"type="text" class="form-control" >
+                  </div>
+
+                  <ng-select [items]="Departments" 
+                             bindLabel="department_Name" 
+                             bindValue="department_ID" 
+                             formControlName="Department_ID"
+                             class="custom">
+                  </ng-select>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button value="submit" (click)="Submit()"type="button" class="btn btn-success" [attr.Data-dismiss]="AddUserForm.invalid ?'': 'modal'" >Save</button>
+              <button (click)="resetForm()" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+      <!-- Confirmation Modal for Delete action -->
+      <div class="modal fade" id="DeleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Delete an User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>¿Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+              <button (click)="DeleteUser()" type="button" class="btn btn-primary" data-dismiss="modal">Yes!</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
