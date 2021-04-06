@@ -4,6 +4,7 @@ import { IMyDateModel, IMyDpOptions } from 'mydatepicker';
 import { IUser } from '../models/User.Model';
 import { UserServiceService } from '../services/user-service.service';
 import { IDepartment } from '../models/department.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-component',
@@ -57,7 +58,6 @@ genders = [
   getUsers() {
     this._UserService.getUsers().subscribe( (res: IUser[]) => {
       this.Users = res as IUser[];
-      console.log(this.Users);
     })
   }
 
@@ -65,7 +65,6 @@ genders = [
   {
     this._UserService.GetDepartments().subscribe( (res: IDepartment[]) => {
       this.Departments = res as IDepartment[];
-      console.log(this.Departments);
     })
   }
 
@@ -85,7 +84,6 @@ genders = [
   }
 
   setDate(event: IMyDateModel ): void {
-    // Set today date using the patchValue function
     this.AddUserForm.patchValue({myDate: {
       Birthday: event.formatted
     }});
@@ -111,13 +109,13 @@ clearDate(): void {
       name: Value.Name,
       lastName: Value.LastName,
       gender: Value.Gender,
-      birthday: Value.Birthday,
+      birthday: Value.Birthday.jsdate,
       position: Value.position,
       immediateSupervisor: Value.ImmediateSupervisor,
       department_ID: Value.Department_ID
     }
 
-     this.AddUser(params);
+    this.AddUser(params);
 
   }
 
